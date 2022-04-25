@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_delivery_udemy/src/pages/client/products/client_products_list_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/login/login_page.dart';
 import 'package:flutter_delivery_udemy/src/pages/register/register_page.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
@@ -22,13 +23,14 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: 'login',
       routes: {
-        'login' : (BuildContext context) => LoginPage(),
-        'register' : (BuildContext context) => RegisterPage(),
+        'login': (BuildContext context) => LoginPage(),
+        'register': (BuildContext context) => RegisterPage(),
+        'client/products/list': (BuildContext context) =>
+            ClientProductListPage(),
       },
       theme: ThemeData(
-        // fontFamily: 'NimbusSans',
-        primaryColor: MyColors.primaryColor
-      ),
+          // fontFamily: 'NimbusSans',
+          primaryColor: MyColors.primaryColor),
     );
   }
 }

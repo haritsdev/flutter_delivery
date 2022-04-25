@@ -5,18 +5,16 @@ import 'package:flutter_delivery_udemy/src/provider/users_provider.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_snackbar.dart';
 
 class RegisterController {
-
   BuildContext context;
   TextEditingController emailController = new TextEditingController();
   TextEditingController nameController = new TextEditingController();
   TextEditingController lastnameController = new TextEditingController();
   TextEditingController phoneController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
-  TextEditingController confirmPassswordController = new TextEditingController();
+  TextEditingController confirmPassswordController =
+      new TextEditingController();
 
   UsersProvider usersProvider = new UsersProvider();
-
-
 
   Future init(BuildContext context) {
     this.context = context;
@@ -31,39 +29,40 @@ class RegisterController {
     String password = passwordController.text.trim();
     String confirmPassword = confirmPassswordController.text.trim();
 
-    if (email.isEmpty || name.isEmpty || lastname.isEmpty || phone.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-      MySnackbar.show(context, 'Debes ingresar todos los campos');
+    if (email.isEmpty ||
+        name.isEmpty ||
+        lastname.isEmpty ||
+        phone.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      MySnackbar.show(context, 'Isi terlebih dahulu semua input');
       return;
     }
 
     if (confirmPassword != password) {
-      MySnackbar.show(context, 'Las contraseñas no coinciden');
+      MySnackbar.show(context, 'Password tidak sama');
       return;
     }
 
     if (password.length < 6) {
-      MySnackbar.show(context, 'Las contraseña debe tener al menos 6 caracteres');
+      MySnackbar.show(context, 'Password setidaknya memiliki 6 karakter');
       return;
     }
 
     User user = new User(
-      email: email,
-      name: name,
-      lastname: lastname,
-      phone: phone,
-      password: password
-    );
+        email: email,
+        name: name,
+        lastname: lastname,
+        phone: phone,
+        password: password);
 
     ResponseApi responseApi = await usersProvider.create(user);
     MySnackbar.show(context, responseApi.message);
 
-    print('RESPUESTA: ${responseApi.toJson()}');
-
+    print('Response: ${responseApi.toJson()}');
   }
 
   void back() {
     Navigator.pop(context);
   }
-
-
 }
