@@ -38,13 +38,20 @@ class LoginController {
     if (responseApi.success) {
       User user = User.fromJson(responseApi.data);
       _sharedPref.save('user', user.toJson());
-      Navigator.pushNamedAndRemoveUntil(
-          context, 'client/products/list', (route) => false);
+
+      print('USERS LOGIN: ${user.toJson()}');
+      print('USERS LENGRTH: ${user.roles.length > 1}');
+      if (user.roles.length > 1) {
+        Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, user.roles[0].route, (route) => false);
+      }
     } else {
       MySnackbar.show(context, responseApi.message);
     }
 
-    print('EMAIL: $email');
-    print('Password: $password');
+    // print('EMAIL: $email');
+    // print('Password: $password');
   }
 }

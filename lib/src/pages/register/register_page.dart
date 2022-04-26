@@ -120,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: TextField(
         controller: _con.nameController,
         decoration: InputDecoration(
-            hintText: 'Masukan Nama depan',
+            hintText: 'Nama Depan',
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(color: MyColors.primaryColorDark),
@@ -141,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
       child: TextField(
         controller: _con.lastnameController,
         decoration: InputDecoration(
-            hintText: 'Masukan Username',
+            hintText: 'Nama Belakang',
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(color: MyColors.primaryColorDark),
