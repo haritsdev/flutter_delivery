@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_delivery_udemy/src/models/user.dart';
 import 'package:flutter_delivery_udemy/src/utils/shared_pref.dart';
 
-class ClientProductsListController {
+class RestauratnOrdersListController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
