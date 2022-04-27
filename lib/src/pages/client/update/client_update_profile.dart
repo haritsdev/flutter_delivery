@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_delivery_udemy/src/pages/register/register_controller.dart';
+import 'package:flutter_delivery_udemy/src/pages/client/update/client_update_controller.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key key}) : super(key: key);
+class ClientUpdatePage extends StatefulWidget {
+  const ClientUpdatePage({Key key}) : super(key: key);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _ClientUpdatePageState createState() => _ClientUpdatePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  RegisterController _con = new RegisterController();
+class _ClientUpdatePageState extends State<ClientUpdatePage> {
+  ClientUpdateController _con = new ClientUpdateController();
 
   @override
   void initState() {

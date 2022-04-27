@@ -8,7 +8,7 @@ import 'package:flutter_delivery_udemy/src/utils/my_snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class RegisterController {
+class ClientUpdateController {
   BuildContext context;
   TextEditingController emailController = new TextEditingController();
   TextEditingController nameController = new TextEditingController();

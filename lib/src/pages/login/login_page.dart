@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         Text(
           'Belum Punya Akun?',
-          style: TextStyle(color: MyColors.primaryColor),
+          style: TextStyle(color: MyColors.primaryColor, fontSize: 17),
         ),
         SizedBox(width: 7),
         GestureDetector(
