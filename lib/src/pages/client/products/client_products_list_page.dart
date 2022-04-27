@@ -94,7 +94,9 @@ class _ClientProductListPageState extends State<ClientProductListPage> {
               ],
             )),
         ListTile(
-            title: Text('Edit Profile'), trailing: Icon(Icons.edit_outlined)),
+            onTap: _con.goToUpdateProfile,
+            title: Text('Edit Profile'),
+            trailing: Icon(Icons.edit_outlined)),
         ListTile(
             onTap: _con.goToRoles,
             title: Text('Keranjang Belanja'),

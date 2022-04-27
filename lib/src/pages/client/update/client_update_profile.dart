@@ -26,43 +26,23 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text('Edit Profile')),
       body: Container(
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Positioned(top: -80, left: -100, child: _circle()),
-            Positioned(
-              child: _textRegister(),
-              top: 65,
-              left: 27,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 50),
+                _imageUser(),
+                SizedBox(height: 30),
+                _textFieldEmail(),
+                _textFieldName(),
+                _textFieldLastName(),
+                _textFieldPhone(),
+              ],
             ),
-            Positioned(
-              child: _iconBack(),
-              top: 51,
-              left: -5,
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(top: 150),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _imageUser(),
-                    SizedBox(height: 30),
-                    _textFieldEmail(),
-                    _textFieldName(),
-                    _textFieldLastName(),
-                    _textFieldPhone(),
-                    _textFieldPassword(),
-                    _textFieldConfirmPassword(),
-                    _buttonLogin()
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
+          )),
+      bottomNavigationBar: _buttonUpdateProfile(),
     );
   }
 
@@ -72,35 +52,22 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       child: CircleAvatar(
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile)
-            : AssetImage('assets/img/user_profile_2.png'),
+            : _con.user?.image != null
+                ? NetworkImage(_con.user?.image)
+                : AssetImage('assets/img/user_profile_2.png'),
         radius: 60,
         backgroundColor: Colors.grey[200],
       ),
     );
   }
 
-  Widget _iconBack() {
-    return IconButton(
-        onPressed: _con.back,
-        icon: Icon(Icons.arrow_back_ios, color: Colors.white));
-  }
-
-  Widget _textRegister() {
-    return Text('REGISTER',
-        style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            fontFamily: 'NimbusSans'));
-  }
-
   Widget _textFieldEmail() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
-          color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
+          color: Colors.grey[200], borderRadius: BorderRadius.circular(10)),
       child: TextField(
+        readOnly: true,
         controller: _con.emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -110,7 +77,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
             hintStyle: TextStyle(color: MyColors.primaryColorDark),
             prefixIcon: Icon(
               Icons.email,
-              color: MyColors.primaryColor,
+              color: Colors.grey[500],
             )),
       ),
     );
@@ -121,7 +88,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
+          borderRadius: BorderRadius.circular(10)),
       child: TextField(
         controller: _con.nameController,
         decoration: InputDecoration(
@@ -142,7 +109,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
+          borderRadius: BorderRadius.circular(10)),
       child: TextField(
         controller: _con.lastnameController,
         decoration: InputDecoration(
@@ -163,7 +130,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
+          borderRadius: BorderRadius.circular(10)),
       child: TextField(
         controller: _con.phoneController,
         keyboardType: TextInputType.phone,
@@ -180,73 +147,19 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
     );
   }
 
-  Widget _textFieldPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.passwordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Password',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColorDark),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
-
-  Widget _textFieldConfirmPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.confirmPassswordController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Konfirmasi Password',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColorDark),
-            prefixIcon: Icon(
-              Icons.lock_outline,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
-
-  Widget _buttonLogin() {
+  Widget _buttonUpdateProfile() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _con.isEnable ? _con.register : null,
-        child: Text('REGISTER'),
+        onPressed: _con.isEnable ? _con.updateProfile : null,
+        child: Text('UPDATE PROFILE'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             padding: EdgeInsets.symmetric(vertical: 15)),
       ),
-    );
-  }
-
-  Widget _circle() {
-    return Container(
-      width: 240,
-      height: 230,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: MyColors.primaryColor),
     );
   }
 

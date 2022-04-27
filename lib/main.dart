@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
         'roles': (BuildContext context) => RolesPage(),
         'client/products/list': (BuildContext context) =>
             ClientProductListPage(),
-        'client/update': (BuildContext context) => ClientUpdatePage(),
+        'update-profile': (BuildContext context) => ClientUpdatePage(),
         'restaurant/orders/list': (BuildContext context) =>
             RestaurantOrdersListPage(),
         'delivery/orders/list': (BuildContext context) =>
