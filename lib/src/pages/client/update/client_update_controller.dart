@@ -31,7 +31,7 @@ class ClientUpdateController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    usersProvider.init(context);
+    usersProvider.init(context, sessionUser: user);
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
 
@@ -53,20 +53,15 @@ class ClientUpdateController {
       return;
     }
 
-    // if (imageFile != null) {
-    //   MySnackbar.show(context, 'Pilih gambar terlebih dahulu');
-    //   return;
-    // }
-
     _progressDialog.show(max: 100, msg: 'Sedang Mengupload');
     isEnable = false;
     User myUser = new User(
-      id: user.id,
-      email: user.email,
-      name: name,
-      lastname: lastname,
-      phone: phone,
-    );
+        id: user.id,
+        email: user.email,
+        name: name,
+        lastname: lastname,
+        phone: phone,
+        image: user.image);
 
     Stream stream = await usersProvider.updateProfile(myUser, imageFile);
     stream.listen((res) async {
