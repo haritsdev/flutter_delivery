@@ -96,8 +96,12 @@ class _RestaurantOrdersListPageState extends State<RestaurantOrdersListPage> {
             )),
         ListTile(
             onTap: _con.goToCategoryCreate,
-            title: Text('Buat Kategori'),
+            title: Text('Tambah Kategori'),
             trailing: Icon(Icons.list_alt)),
+        ListTile(
+            onTap: _con.goToProductCreate,
+            title: Text('Tambah Produk'),
+            trailing: Icon(Icons.local_pizza)),
         ListTile(
             onTap: _con.goToRoles,
             title: Text('Keranjang Belanja'),

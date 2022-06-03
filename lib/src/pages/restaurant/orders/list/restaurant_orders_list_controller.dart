@@ -28,6 +28,10 @@ class RestauratnOrdersListController {
     Navigator.pushNamed(context, 'restaurant/categories/create');
   }
 
+  void goToProductCreate() {
+    Navigator.pushNamed(context, 'restaurant/products/create');
+  }
+
   void logout() {
     _sharedPref.logout(context, user.id);
   }

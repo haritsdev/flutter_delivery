@@ -94,12 +94,12 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
               ],
             )),
         ListTile(
-            onTap: _con.goToRoles,
             title: Text('Keranjang Belanja'),
             trailing: Icon(Icons.shopping_cart_outlined)),
         _con.user != null
             ? _con.user.roles.length > 1
                 ? ListTile(
+                    onTap: _con.goToRoles,
                     title: Text('Pilih Role Sayaj'),
                     trailing: Icon(Icons.person_outline))
                 : Container()

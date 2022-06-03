@@ -1,105 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_delivery_udemy/src/pages/restaurant/categories/create/restaurant_categories_create_page.dart';
-import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
+import 'package:flutter_delivery_udemy/src/models/category.dart';
+import 'package:flutter_delivery_udemy/src/models/response_api.dart';
+import 'package:flutter_delivery_udemy/src/models/user.dart';
+import 'package:flutter_delivery_udemy/src/provider/categories_provider.dart';
+import 'package:flutter_delivery_udemy/src/utils/my_snackbar.dart';
+import 'package:flutter_delivery_udemy/src/utils/shared_pref.dart';
 
-class RestaurantCategoriesPage extends StatefulWidget {
-  const RestaurantCategoriesPage({Key key}) : super(key: key);
+class RestaurantCategoriesCreateController {
+  BuildContext context;
+  Function refresh;
 
-  @override
-  State<RestaurantCategoriesPage> createState() =>
-      _RestaurantCategoriesPageState();
-}
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
 
-class _RestaurantCategoriesPageState extends State<RestaurantCategoriesPage> {
-  RestaurantCategoriesCreateController _con =
-      new RestaurantCategoriesCreateController();
+  CategoriesProvider _categoriesProvider = new CategoriesProvider();
+  User user;
+  SharedPref sharedPref = new SharedPref();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context, refresh);
-    });
+  Future init(BuildContext context, Function refresh) async {
+    this.context = context;
+    this.refresh = refresh;
+    user = User.fromJson(await sharedPref.read('user'));
+    _categoriesProvider.init(context, user);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Tambah Kategori Baru')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [_textFieldCategoryName(), _textFieldCategoryDescription()],
-      ),
-      bottomNavigationBar: _buttonCategoriesCreate(),
-    );
-  }
+  void createCategory() async {
+    String name = nameController.text;
+    String description = descriptionController.text;
 
-  Widget _textFieldCategoryName() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.nameController,
-        decoration: InputDecoration(
-            hintText: 'Nama Kategori',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColorDark),
-            suffixIcon: Icon(
-              Icons.list_alt,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
+    if (name.isEmpty || description.isEmpty) {
+      MySnackbar.show(context, 'Semua field harus diisi terlebih dahulu');
+    }
 
-  Widget _textFieldCategoryDescription() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: MyColors.primaryOpacityColor,
-          borderRadius: BorderRadius.circular(30)),
-      child: TextField(
-        controller: _con.descriptionController,
-        maxLines: 3,
-        maxLength: 255,
-        decoration: InputDecoration(
-            hintText: 'Nama Kategori',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.all(15),
-            hintStyle: TextStyle(color: MyColors.primaryColorDark),
-            suffixIcon: Icon(
-              Icons.description,
-              color: MyColors.primaryColor,
-            )),
-      ),
-    );
-  }
+    Category category = new Category(name: name, description: description);
 
-  Widget _buttonCategoriesCreate() {
-    return Container(
-      height: 45,
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-      child: ElevatedButton(
-        onPressed: _con.createCategory,
-        child: Text('BUAT KATEGORI BARU'),
-        style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            padding: EdgeInsets.symmetric(vertical: 15)),
-      ),
-    );
-  }
+    ResponseApi responseApi = await _categoriesProvider.create(category);
 
-  void refresh() {
-    setState(() {});
+    MySnackbar.show(context, responseApi.message);
+    if (responseApi.success) {
+      nameController.text = '';
+      descriptionController.text = '';
+    }
+
+    print('kategori: $name');
+    print('Deskripsi: $description');
   }
 }
