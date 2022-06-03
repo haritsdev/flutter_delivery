@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_delivery_udemy/src/pages/register/register_controller.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
@@ -17,10 +16,6 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context, refresh);
-    });
   }
 
   @override

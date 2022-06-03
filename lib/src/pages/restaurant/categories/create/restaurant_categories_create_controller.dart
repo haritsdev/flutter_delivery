@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+// import 'package:flutter/scheduler.dart';
 import 'package:flutter_delivery_udemy/src/pages/restaurant/categories/create/restaurant_categories_create_page.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
@@ -19,9 +19,9 @@ class _RestaurantCategoriesPageState extends State<RestaurantCategoriesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context, refresh);
-    });
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _con.init(context, refresh);
+    // });
   }
 
   @override

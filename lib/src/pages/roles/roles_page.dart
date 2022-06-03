@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+// import 'package:flutter/scheduler.dart';
 import 'package:flutter_delivery_udemy/src/models/role.dart';
 import 'package:flutter_delivery_udemy/src/pages/roles/roles_controller.dart';
 
@@ -17,9 +17,9 @@ class _RolesPageState extends State<RolesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context, refresh);
-    });
+    // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+    //   _con.init(context, refresh);
+    // });
   }
 
   @override
