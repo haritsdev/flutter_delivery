@@ -14,16 +14,16 @@ class Category {
   String id;
   String name;
   String description;
-  List<Category> toList=[];
+  List<Category> toList = [];
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
+        id: json["id"] is int ? json["id"].toString() : json["id"],
         name: json["name"],
         description: json["description"],
       );
 
-  Category.fromJsonList(List<dynamic> jsonList){
-    if(jsonList== null) return;
+  Category.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
     jsonList.forEach((element) {
       Category category = Category.fromJson(element);
       toList.add(category);

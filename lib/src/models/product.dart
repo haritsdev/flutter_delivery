@@ -13,7 +13,8 @@ class Product {
   String image3;
   int idCategory;
   double price;
-  // int quantity;
+  int quantity;
+  List<Product> toList = [];
 
   Product({
     this.id,
@@ -24,24 +25,34 @@ class Product {
     this.image3,
     this.idCategory,
     this.price,
-    // this.quantity,
+    this.quantity,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
+        id: json["id"] is int ? json["id"].toString() : json["id"],
         name: json["name"],
         description: json["description"],
         image1: json["image1"],
         image2: json["image2"],
         image3: json["image3"],
-        idCategory: json["id_category"],
         price: json['price'] is String
             ? double.parse(json["price"])
             : isInteger(json["price"])
                 ? json["price"].toDouble()
                 : json['price'],
-        // quantity: json["quantity"],
+        idCategory: json["id_category"] is String
+            ? int.parse(json["id_category"])
+            : json["id_category"],
+        quantity: json["quantity"],
       );
+
+  Product.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+    jsonList.forEach((element) {
+      Product product = Product.fromJson(element);
+      toList.add(product);
+    });
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -52,7 +63,7 @@ class Product {
         "image3": image3,
         "id_category": idCategory,
         "price": price,
-        // "quantity": quantity,
+        "quantity": quantity,
       };
 
   // Product.fromJsonList(List<dynamic> jsonList) {

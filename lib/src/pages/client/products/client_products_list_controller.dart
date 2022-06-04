@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_delivery_udemy/src/models/category.dart';
+import 'package:flutter_delivery_udemy/src/models/product.dart';
 import 'package:flutter_delivery_udemy/src/models/user.dart';
 import 'package:flutter_delivery_udemy/src/provider/categories_provider.dart';
+import 'package:flutter_delivery_udemy/src/provider/products_provider.dart';
 import 'package:flutter_delivery_udemy/src/utils/shared_pref.dart';
 
 class ClientProductsListController {
@@ -11,6 +13,7 @@ class ClientProductsListController {
   Function refresh;
   User user;
   CategoriesProvider _categoriesProvider = new CategoriesProvider();
+  ProductsProvider _productsProvider = new ProductsProvider();
   List<Category> categories = [];
 
   Future init(BuildContext context, Function refresh) async {
@@ -18,8 +21,14 @@ class ClientProductsListController {
     this.refresh = refresh;
     user = User.fromJson(await _sharedPref.read('user'));
     _categoriesProvider.init(context, user);
+    _productsProvider.init(context, user);
+
     getCategories();
     refresh();
+  }
+
+  Future<List<Product>> getProducts(String idCategory) async {
+    return await _productsProvider.getByCategory(idCategory);
   }
 
   void getCategories() async {

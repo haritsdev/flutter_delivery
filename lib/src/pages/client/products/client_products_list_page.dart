@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_delivery_udemy/src/models/category.dart';
+import 'package:flutter_delivery_udemy/src/models/product.dart';
 import 'package:flutter_delivery_udemy/src/pages/client/products/client_products_list_controller.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
 
@@ -63,22 +64,34 @@ class _ClientProductListPageState extends State<ClientProductListPage> {
           drawer: _drawer(),
           body: TabBarView(
             children: _con.categories.map((Category category) {
-              return _cardProduct();
+              return FutureBuilder(
+                  future: _con.getProducts(category.id),
+                  builder: (context, AsyncSnapshot<List<Product>> snapshot) {
+                    return GridView.builder(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 0.7),
+                        itemCount: snapshot.data?.length ?? 0,
+                        itemBuilder: (_, index) {
+                          return _cardProduct(snapshot.data[index]);
+                        });
+                  });
             }).toList(),
           )),
     );
   }
 
-  Widget _cardProduct() {
+  Widget _cardProduct(Product product) {
     return Container(
-      height: 250,
+      height: 303,
       child: Card(
         elevation: 3.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
             Positioned(
-                top: -1,
+                bottom: -1,
                 right: -1,
                 child: Container(
                   width: 40,
@@ -96,28 +109,42 @@ class _ClientProductListPageState extends State<ClientProductListPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  padding: EdgeInsets.all(15),
-                  child: FadeInImage(
-                    image: AssetImage('assets/img/pizza.png'),
-                    fit: BoxFit.contain,
-                    fadeInDuration: Duration(microseconds: 50),
-                    placeholder: AssetImage('assets/img/no-image.png'),
+                Positioned(
+                  top: -2,
+                  child: Container(
+                    height: 140,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    padding: EdgeInsets.all(15),
+                    child: SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: FadeInImage(
+                          image: product.image1 != null
+                              ? NetworkImage(product.image1)
+                              : AssetImage('assets/img/pizza.png'),
+                          fit: BoxFit.fitHeight,
+                          fadeInDuration: Duration(microseconds: 50),
+                          placeholder: AssetImage('assets/img/no-image.png'),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  height: 33,
                   child: Text(
-                    'Nama produk',
+                    product.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 15, fontFamily: 'NimbusSans'),
                   ),
                 ),
+                Spacer(),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    'Rp. 120000',
+                    'Rp.${product.price ?? 0}',
                     style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
