@@ -4,6 +4,7 @@ import 'package:flutter_delivery_udemy/src/models/category.dart';
 import 'package:flutter_delivery_udemy/src/models/product.dart';
 import 'package:flutter_delivery_udemy/src/pages/client/products/client_products_list_controller.dart';
 import 'package:flutter_delivery_udemy/src/utils/my_colors.dart';
+import 'package:flutter_delivery_udemy/src/widgets/no_data_widgets.dart';
 
 class ClientProductListPage extends StatefulWidget {
   const ClientProductListPage({Key key}) : super(key: key);
@@ -67,15 +68,24 @@ class _ClientProductListPageState extends State<ClientProductListPage> {
               return FutureBuilder(
                   future: _con.getProducts(category.id),
                   builder: (context, AsyncSnapshot<List<Product>> snapshot) {
-                    return GridView.builder(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: 0.7),
-                        itemCount: snapshot.data?.length ?? 0,
-                        itemBuilder: (_, index) {
-                          return _cardProduct(snapshot.data[index]);
-                        });
+                    if (snapshot.hasData) {
+                      if (snapshot.data.length > 0) {
+                        return GridView.builder(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2, childAspectRatio: 0.7),
+                            itemCount: snapshot.data?.length ?? 0,
+                            itemBuilder: (_, index) {
+                              return _cardProduct(snapshot.data[index]);
+                            });
+                      } else {
+                        return NoDataWidget(text: 'Data kosong');
+                      }
+                    } else {
+                      return NoDataWidget(text: 'Data kosong');
+                    }
                   });
             }).toList(),
           )),
